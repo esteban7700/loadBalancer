@@ -31,18 +31,15 @@ public class HangmanRedisGame extends HangmanGame {
     public String addLetter(char l) {
         String word = (String) template.opsForHash().get("game:" + idPartida, "completeWord");
         String guessedWord = (String) template.opsForHash().get("game:" + idPartida, "discoverWord");
-        String[] charGuessedWord = guessedWord.split("");
+        char[] charGuessedWord = guessedWord.toCharArray();
         for (int i = 0; i < word.length(); i++) {
             if (word.charAt(i) == l) {
-                charGuessedWord[i] = Character.toString(l);
+                charGuessedWord[i] = l;
             }
         }
-        String val = "";
-        for (String charGuessedWord1 : charGuessedWord) {
-            val = val + charGuessedWord1;
-        }
-        template.opsForHash().put("game:" + idPartida,"discoverWord", val);
-        return val;
+        System.out.println(new String(charGuessedWord));
+        template.opsForHash().put("game:" + idPartida,"discoverWord", new String (charGuessedWord));
+        return new String (charGuessedWord);
     }
 
     public synchronized boolean tryWord(String playerName, String s) {
