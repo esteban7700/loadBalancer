@@ -28,7 +28,6 @@ import edu.eci.arsw.collabhangman.cache.GameStateCache;
  *
  * @author hcadavid
  */
-@Service
 public class InMemoryGamesStatePersistence implements GameStateCache{
     
     private final ConcurrentHashMap<Integer,HangmanGame> gamesState;
