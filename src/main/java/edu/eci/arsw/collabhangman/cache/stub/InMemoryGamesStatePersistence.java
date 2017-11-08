@@ -32,7 +32,7 @@ public class InMemoryGamesStatePersistence implements GameStateCache{
     
     private final ConcurrentHashMap<Integer,HangmanGame> gamesState;
     
-    public InMemoryGamesStatePersistence(){
+    public InMemoryGamesStatePersistence() throws GameServicesException{
         gamesState=new ConcurrentHashMap<>();
         preloadGames();
     }
@@ -59,7 +59,7 @@ public class InMemoryGamesStatePersistence implements GameStateCache{
         
     }
     
-    private void preloadGames(){
+    private void preloadGames() throws GameServicesException{
         HangmanGame hg=new HangmanGame("happiness");
         hg.addLetter('h');
         hg.addLetter('e');

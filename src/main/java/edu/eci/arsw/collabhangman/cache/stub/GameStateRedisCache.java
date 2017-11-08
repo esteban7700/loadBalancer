@@ -30,6 +30,7 @@ public class GameStateRedisCache implements GameStateCache{
 
     @Override
     public HangmanGame getGame(int gameid) throws GameServicesException {
+        
         return new HangmanRedisGame("", gameid, template);
     }
 }

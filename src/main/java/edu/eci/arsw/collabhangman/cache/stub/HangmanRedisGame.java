@@ -6,7 +6,9 @@
 package edu.eci.arsw.collabhangman.cache.stub;
 
 import edu.eci.arsw.collabhangman.model.game.HangmanGame;
+import edu.eci.arsw.collabhangman.services.GameServicesException;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import redis.clients.jedis.exceptions.JedisConnectionException;
 
 /**
  *
@@ -28,25 +30,36 @@ public class HangmanRedisGame extends HangmanGame {
      * @param l new letter
      * @return the secret word with all the characters 'l' revealed
      */
-    public String addLetter(char l) {
-        String word = (String) template.opsForHash().get("game:" + idPartida, "completeWord");
-        String guessedWord = (String) template.opsForHash().get("game:" + idPartida, "discoverWord");
-        char[] charGuessedWord = guessedWord.toCharArray();
-        for (int i = 0; i < word.length(); i++) {
-            if (word.charAt(i) == l) {
-                charGuessedWord[i] = l;
+    public String addLetter(char l) throws GameServicesException {
+        try{
+            String word = (String) template.opsForHash().get("game:" + idPartida, "completeWord");
+            System.out.println(word);
+            if(word==null){
+                throw new GameServicesException("la sala no existe");
             }
+            String guessedWord = (String) template.opsForHash().get("game:" + idPartida, "discoverWord");
+            char[] charGuessedWord = guessedWord.toCharArray();
+            for (int i = 0; i < word.length(); i++) {
+                if (word.charAt(i) == l) {
+                    charGuessedWord[i] = l;
+                }
+            }
+            System.out.println(new String(charGuessedWord));
+            template.opsForHash().put("game:" + idPartida,"discoverWord", new String (charGuessedWord));
+            return new String (charGuessedWord);
+        }catch(JedisConnectionException e){
+            throw new GameServicesException("La sesion con la base de datos  de regit se ha terminado");
         }
-        System.out.println(new String(charGuessedWord));
-        template.opsForHash().put("game:" + idPartida,"discoverWord", new String (charGuessedWord));
-        return new String (charGuessedWord);
     }
 
-    public synchronized boolean tryWord(String playerName, String s) {
+    public synchronized boolean tryWord(String playerName, String s) throws GameServicesException {
         String word = (String) template.opsForHash().get("game:" + idPartida, "completeWord");
+        if(word==null){
+                throw new GameServicesException("la sala no existe");
+            }
         if (s.toLowerCase().equals(word)) {
-            template.opsForHash().put("game:" + idPartida, "winner",playerName);
-            template.opsForHash().put("game:" + idPartida,"state", "finalizado");
+            template.opsForHash().put("game:" + idPartida,"winner",playerName);
+            template.opsForHash().put("game:" + idPartida,"state", "Finalizado");
             template.opsForHash().put("game:" + idPartida,"discoverWord", word);
             return true;
         }
