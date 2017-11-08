@@ -41,16 +41,16 @@ public class HangmanRedisGame extends HangmanGame {
         for (String charGuessedWord1 : charGuessedWord) {
             val = val + charGuessedWord1;
         }
-        template.opsForHash().put("game:" + idPartida, val, "discoverWord");
+        template.opsForHash().put("game:" + idPartida,"discoverWord", val);
         return val;
     }
 
     public synchronized boolean tryWord(String playerName, String s) {
         String word = (String) template.opsForHash().get("game:" + idPartida, "completeWord");
         if (s.toLowerCase().equals(word)) {
-            template.opsForHash().put("game:" + idPartida, playerName, "winner");
-            template.opsForHash().put("game:" + idPartida, "finalizado", "state");
-            template.opsForHash().put("game:" + idPartida, word, "discoverWord");
+            template.opsForHash().put("game:" + idPartida, "winner",playerName);
+            template.opsForHash().put("game:" + idPartida,"state", "finalizado");
+            template.opsForHash().put("game:" + idPartida,"discoverWord", word);
             return true;
         }
         return false;
