@@ -31,10 +31,10 @@ public class HangmanRedisGame extends HangmanGame {
      * @return the secret word with all the characters 'l' revealed
      */
     public String addLetter(char l) throws GameServicesException {
-        try{
+        try {
             String word = (String) template.opsForHash().get("game:" + idPartida, "completeWord");
             System.out.println(word);
-            if(word==null){
+            if (word == null) {
                 throw new GameServicesException("la sala no existe");
             }
             String guessedWord = (String) template.opsForHash().get("game:" + idPartida, "discoverWord");
@@ -45,22 +45,38 @@ public class HangmanRedisGame extends HangmanGame {
                 }
             }
             System.out.println(new String(charGuessedWord));
-            template.opsForHash().put("game:" + idPartida,"discoverWord", new String (charGuessedWord));
-            return new String (charGuessedWord);
-        }catch(JedisConnectionException e){
+            template.opsForHash().put("game:" + idPartida, "discoverWord", new String(charGuessedWord));
+            return new String(charGuessedWord);
+        } catch (JedisConnectionException e) {
             throw new GameServicesException("La sesion con la base de datos  de regit se ha terminado");
         }
     }
 
     public synchronized boolean tryWord(String playerName, String s) throws GameServicesException {
         String word = (String) template.opsForHash().get("game:" + idPartida, "completeWord");
-        if(word==null){
-                throw new GameServicesException("la sala no existe");
-            }
+        if (word == null) {
+            throw new GameServicesException("la sala no existe");
+        }
         if (s.toLowerCase().equals(word)) {
-            template.opsForHash().put("game:" + idPartida,"winner",playerName);
-            template.opsForHash().put("game:" + idPartida,"state", "Finalizado");
-            template.opsForHash().put("game:" + idPartida,"discoverWord", word);
+            
+                
+            template.execute(new SessionCallback< List< Object>>() {
+                @SuppressWarnings("unchecked")
+                @Override
+                public < K, V> List<Object> execute(final RedisOperations< K, V> operations) throws DataAccessException {
+                    operations.watch((K)"game:" + idPartida+" discoverWord");
+                    operations.multi();
+                    
+                    operations.opsForHash().put("game:" + idPartida, "discoverWord", word);
+                    operations.opsForHash().put("game:" + idPartida, "winner", playerName);
+                    operations.opsForHash().put("game:" + idPartida, "state", "Finalizado");
+                    
+                    
+                    return operations.exec();
+                }
+            });
+
+            
             return true;
         }
         return false;
