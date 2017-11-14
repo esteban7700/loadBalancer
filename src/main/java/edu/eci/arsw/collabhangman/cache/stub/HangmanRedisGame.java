@@ -49,6 +49,7 @@ public class HangmanRedisGame extends HangmanGame {
      * @param l new letter
      * @return the secret word with all the characters 'l' revealed
      */
+    @Override
     public String addLetter(char l) throws GameServicesException {
         try {
             String word = (String) template.opsForHash().get("game:" + idPartida, "completeWord");
@@ -58,7 +59,9 @@ public class HangmanRedisGame extends HangmanGame {
                 throw new GameServicesException("la sala no existe");
             }
             
-            Object[] params = new Object[]{l,word,guessedWord};   
+            Object[] params = new Object[3];
+            params[0]=l;
+            
             
             template.execute(new SessionCallback< List< Object>>() {
                 @SuppressWarnings("unchecked")
@@ -66,26 +69,19 @@ public class HangmanRedisGame extends HangmanGame {
                 public < K, V> List<Object> execute(final RedisOperations< K, V> operations) throws DataAccessException {
                     operations.watch((K) ("game:" + idPartida + " discoverWord"));
                     operations.multi();
-                    String operacion = operations.execute(script, Collections.singletonList("game:" + idPartida), params);
-                    operations.opsForHash().put((K) ("game:" + idPartida), "currentWord", operacion);
+                    operations.execute(script, Collections.singletonList("game:" + idPartida),params);
                     return operations.exec();
                 }
             });
             
-            
-//          for (int i = 0; i < word.length(); i++) {
-//                if (word.charAt(i) == l) {
-//                    charGuessedWord[i] = l;
-//                }
-//            }
-            
-            return new String(charGuessedWord);
+            return getCurrentGuessedWord();
 
         } catch (JedisConnectionException e) {
             throw new GameServicesException("La sesion con la base de datos  de regit se ha terminado");
         }
     }
 
+    @Override
     public synchronized boolean tryWord(String playerName, String s) throws GameServicesException {
         String word = (String) template.opsForHash().get("game:" + idPartida, "completeWord");
         if (word == null) {
@@ -113,8 +109,12 @@ public class HangmanRedisGame extends HangmanGame {
         return false;
     }
 
-    public boolean gameFinished() {
+    @Override
+    public boolean gameFinished() throws GameServicesException{
         String gameFinished = (String) template.opsForHash().get("game:" + idPartida, "state");
+         if (gameFinished == null) {
+            throw new GameServicesException("ID inconrecto");
+        }
         return "finalizado".equals(gameFinished);
     }
 
@@ -122,12 +122,23 @@ public class HangmanRedisGame extends HangmanGame {
      * @pre gameFinished=true;
      * @return winner's name
      */
-    public String getWinnerName() {
-        return (String) template.opsForHash().get("game:" + idPartida, "winner");
+    @Override
+    public String getWinnerName() throws GameServicesException{
+        
+        String winner = (String) template.opsForHash().get("game:" + idPartida, "winner");
+        if (winner == null) {
+            throw new GameServicesException("ID inconrecto");
+        }
+        return winner;
     }
 
-    public String getCurrentGuessedWord() {
-        return (String) template.opsForHash().get("game:" + idPartida, "discoverWord");
+    @Override
+    public String getCurrentGuessedWord() throws GameServicesException{
+        String cgw = (String) template.opsForHash().get("game:" + idPartida, "discoverWord");
+        if (cgw == null) {
+            throw new GameServicesException("ID inconrecto");
+        }
+        return cgw;
     }
 
 }

@@ -61,7 +61,7 @@ public class HangmanGame {
         return false;
     }
     
-    public boolean gameFinished(){
+    public boolean gameFinished() throws GameServicesException{
         return gameFinished;
     }
     
@@ -69,11 +69,11 @@ public class HangmanGame {
      * @pre gameFinished=true;
      * @return winner's name
      */
-    public String getWinnerName(){
+    public String getWinnerName() throws GameServicesException{
         return winner;
     }
     
-    public String getCurrentGuessedWord(){
+    public String getCurrentGuessedWord() throws GameServicesException {
         return new String(guessedWord);
     }    
     
