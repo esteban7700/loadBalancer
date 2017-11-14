@@ -9,4 +9,4 @@ for i = 1, #completeWord do
     end
 end
 
-return discoverWord
+redis.call('SET', KEYS[2], discoverWord)

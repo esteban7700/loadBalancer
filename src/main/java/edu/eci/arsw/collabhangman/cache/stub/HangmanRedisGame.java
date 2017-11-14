@@ -60,8 +60,6 @@ public class HangmanRedisGame extends HangmanGame {
             }
             
             Object[] params = new Object[3];
-            params[0]=l;
-            
             
             template.execute(new SessionCallback< List< Object>>() {
                 @SuppressWarnings("unchecked")
@@ -69,7 +67,7 @@ public class HangmanRedisGame extends HangmanGame {
                 public < K, V> List<Object> execute(final RedisOperations< K, V> operations) throws DataAccessException {
                     operations.watch((K) ("game:" + idPartida + " discoverWord"));
                     operations.multi();
-                    operations.execute(script, Collections.singletonList("game:" + idPartida),params);
+                    operations.execute(script, Collections.singletonList((K)("game:" + idPartida)),params);
                     return operations.exec();
                 }
             });
