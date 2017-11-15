@@ -111,7 +111,7 @@ public class HangmanRedisGame extends HangmanGame {
     public boolean gameFinished() throws GameServicesException{
         String gameFinished = (String) template.opsForHash().get("game:" + idPartida, "state");
          if (gameFinished == null) {
-            throw new GameServicesException("ID inconrecto");
+            throw new GameServicesException("ID inconrecto en método gameFinished");
         }
         return "finalizado".equals(gameFinished);
     }
@@ -125,7 +125,7 @@ public class HangmanRedisGame extends HangmanGame {
         
         String winner = (String) template.opsForHash().get("game:" + idPartida, "winner");
         if (winner == null) {
-            throw new GameServicesException("ID inconrecto");
+            throw new GameServicesException("ID inconrecto en método getWinnerName");
         }
         return winner;
     }
@@ -134,7 +134,7 @@ public class HangmanRedisGame extends HangmanGame {
     public String getCurrentGuessedWord() throws GameServicesException{
         String cgw = (String) template.opsForHash().get("game:" + idPartida, "discoverWord");
         if (cgw == null) {
-            throw new GameServicesException("ID inconrecto");
+            throw new GameServicesException("ID inconrecto en método getCurrentGueessedWord");
         }
         return cgw;
     }
