@@ -5,6 +5,8 @@
  */
 package edu.eci.arsw.collabhangman.model.game.entities;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,6 +22,8 @@ public class User {
     private String name;
     
     private String photoUrl;
+    
+    private List<Score> scorers = new ArrayList();
 
     public User(int id, String name, String photoUrl) {
         this.id = id;
