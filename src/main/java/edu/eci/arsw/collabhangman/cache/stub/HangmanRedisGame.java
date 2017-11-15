@@ -70,7 +70,7 @@ public class HangmanRedisGame extends HangmanGame {
             
             
             
-            /*
+            /* Lo comentamos por que concordamos con el profesor de que no es necesario, debido a que no hay condicion de carrera
             Object[] params = new Object[3];
             
             template.execute(new SessionCallback< List< Object>>() {
