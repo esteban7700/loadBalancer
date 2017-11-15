@@ -2,7 +2,7 @@ spring:
     data:
         mongodb:
         host: ds029486.mlab.com
-        port: 37101
+        port: 29486
         database: usuarios
         username: ahorcado
         password: ahorcado
