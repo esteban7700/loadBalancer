@@ -58,7 +58,19 @@ public class HangmanRedisGame extends HangmanGame {
             if (word == null) {
                 throw new GameServicesException("la sala no existe");
             }
+             char[] charGuessedWord = guessedWord.toCharArray();
+             for (int i = 0; i < word.length(); i++) {
+                 if (word.charAt(i) == l) {
+                     charGuessedWord[i] = l;
+                 }
+              }		              
             
+            template.opsForHash().put("game:" + idPartida,"discoverWord", new String (charGuessedWord));
+            return new String (charGuessedWord);
+            
+            
+            
+            /*
             Object[] params = new Object[3];
             
             template.execute(new SessionCallback< List< Object>>() {
@@ -67,12 +79,12 @@ public class HangmanRedisGame extends HangmanGame {
                 public < K, V> List<Object> execute(final RedisOperations< K, V> operations) throws DataAccessException {
                     operations.watch((K) ("game:" + idPartida + " discoverWord"));
                     operations.multi();
-                    operations.execute(script, Collections.singletonList((K)("game:" + idPartida)),params);
+                    //operations.execute(script, Collections.singletonList((K)("game:" + idPartida)),params);
                     return operations.exec();
                 }
             });
             
-            return getCurrentGuessedWord();
+            return getCurrentGuessedWord();*/
 
         } catch (JedisConnectionException e) {
             throw new GameServicesException("La sesion con la base de datos  de regit se ha terminado");
