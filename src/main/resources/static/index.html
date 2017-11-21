@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
     
-    <body>
+    <body onload="app.loadScores('100')">
         <h1 class="title">AHORCADO MULTIJUGADOR</h1>
 
         <div class="centeredinput">
@@ -47,7 +47,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
             <div id="nameUser">
                 Nombre:????      
-            </div>             
+            </div>
+            <div id="ultimoPuntaje">
+                Ultimo puntaje:????      
+            </div>
         </div>
 
         
@@ -85,8 +88,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <button id="badivina" onclick="app.sendWord()">Enviar palabra</button>
         </div>
         
-        
-        
+        <div id="scores">
+            Usuarios con puntajes mayores a 100: 
+        </div>
         
     </body>
 </html>

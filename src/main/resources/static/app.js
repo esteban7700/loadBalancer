@@ -12,6 +12,7 @@ var app = (function () {
             $.get("/hangmangames/" + userid,
                     function (data) {
                         nombreJugador = data.name;
+                        $("#ultimoPuntaje").html("<div id='ultimoPuntaje'>Ultimo puntaje: "+data.scores[data.scores.length-1]+"</div>")
                         $("#photoUser").html("<div id = 'photoUser'><img src=" + data.photoUrl + "></img></div>");
                         $("#nameUser").html("<div id= 'nameUser'> Nombre: " + data.name + "</div>");
                     }
@@ -20,6 +21,23 @@ var app = (function () {
                         alert(data["responseText"]);
                     }
             );
+        },
+        loadScores: function(score){
+            $.get("/hangmangames/scores" + score, 
+                    function(data){
+                        var stringData=""
+                        for(var i=0;i<data.length;i++){
+                                stringData+="<label>Score: "+data[i]+"<label>"
+                                }
+                        $("#scores").html("<div id='scores'>Usuarios con puntajes mayores a 100:"+
+                                stringData
+                                +"</div>");
+                    }
+            ).fail(
+                    function (data) {
+                        alert(data["responseText"]);
+                    }
+            );       
         },
         loadWord: function (gameid1) {
 
