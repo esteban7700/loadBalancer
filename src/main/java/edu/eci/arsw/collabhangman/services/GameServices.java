@@ -63,8 +63,8 @@ public class GameServices {
     }
     
     public List<User> loadScores(String score){
-        System.out.println(usersRepository.findByScore(score)+ "!!!! SCORES");
-        return usersRepository.findByScore(score);
+        System.out.println(usersRepository.findByScore(Integer.parseInt(score))+ "!!!! SCORES");
+        return usersRepository.findByScore(Integer.parseInt(score));
     } 
     
     /*public Set<User> getAllUsers(){
