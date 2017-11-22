@@ -26,7 +26,7 @@ var app = (function () {
         loadScores: function(score){
             $.get("/hangmangames/scores/" + score, 
                     function(data){
-                        alert(JSON.stringify(data + "SCORESSS"))
+                        alert(JSON.stringify(data) + "SCORESSS");
                         var stringData=""
                         for(var i=0;i<data.length;i++){
                                 stringData+="<label>Score: "+data[i]+"<label>"
