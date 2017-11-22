@@ -23,13 +23,13 @@ public class User {
     
     private String photoUrl;
     
-    private List<Score> scorers = new ArrayList();
+    private List<Score> scores = new ArrayList();
 
-    public User(int id, String name, String photoUrl,List<Score> scorers) {
+    public User(int id, String name, String photoUrl,List<Score> scores) {
         this.id = id;
         this.name = name;
         this.photoUrl = photoUrl;
-        this.scorers= scorers;
+        this.scores= scores;
     }
 
     public User() {
@@ -63,14 +63,19 @@ public class User {
      * @return the scorers
      */
     public List<Score> getScorers() {
-        return scorers;
+        return scores;
     }
 
     /**
      * @param scorers the scorers to set
      */
     public void setScorers(List<Score> scorers) {
-        this.scorers = scorers;
+        this.scores = scorers;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", name=" + name + ", photoUrl=" + photoUrl + ", scorers=" + scores + '}';
     }
     
     
