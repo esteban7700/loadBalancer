@@ -25,10 +25,11 @@ public class User {
     
     private List<Score> scorers = new ArrayList();
 
-    public User(int id, String name, String photoUrl) {
+    public User(int id, String name, String photoUrl,List<Score> scorers) {
         this.id = id;
         this.name = name;
         this.photoUrl = photoUrl;
+        this.scorers= scorers;
     }
 
     public User() {
@@ -56,6 +57,20 @@ public class User {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    /**
+     * @return the scorers
+     */
+    public List<Score> getScorers() {
+        return scorers;
+    }
+
+    /**
+     * @param scorers the scorers to set
+     */
+    public void setScorers(List<Score> scorers) {
+        this.scorers = scorers;
     }
     
     

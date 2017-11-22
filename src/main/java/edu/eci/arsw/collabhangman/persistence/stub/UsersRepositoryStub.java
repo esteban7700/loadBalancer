@@ -8,6 +8,7 @@ package edu.eci.arsw.collabhangman.persistence.stub;
 import edu.eci.arsw.collabhangman.model.game.entities.User;
 import edu.eci.arsw.collabhangman.persistence.PersistenceException;
 import edu.eci.arsw.collabhangman.persistence.UsersRepository;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -25,9 +26,9 @@ public class UsersRepositoryStub {
     
     static{
         usersdb=new ConcurrentHashMap<>();
-        usersdb.put(112233, new User(112233,"Maria Perez","http://www.your3dsource.com/images/facepic1.jpeg"));
-        usersdb.put(223344, new User(223344,"Luis Rodriguez","http://www.your3dsource.com/images/facepic4.jpeg"));
-        usersdb.put(334455, new User(334455,"Pedro Rodriguez","http://www.your3dsource.com/images/facepic5.jpeg"));
+        usersdb.put(112233, new User(112233,"Maria Perez","http://www.your3dsource.com/images/facepic1.jpeg",new ArrayList<>()));
+        usersdb.put(223344, new User(223344,"Luis Rodriguez","http://www.your3dsource.com/images/facepic4.jpeg",new ArrayList<>()));
+        usersdb.put(334455, new User(334455,"Pedro Rodriguez","http://www.your3dsource.com/images/facepic5.jpeg",new ArrayList<>()));
     }
 
     public User findById(Integer id) throws PersistenceException {
