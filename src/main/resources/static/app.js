@@ -27,7 +27,7 @@ var app = (function () {
                     function(data){
                         var stringData=""
                         for(var i=0;i<data.length;i++){
-                                stringData+="<label>Score: "+data[i].name+"<label>"
+                                stringData+="<label> "+data[i].name+"<label>"
                                 }
                         $("#scores").html("<div id='scores'>Usuarios con puntajes mayores a 100:"+
                                 stringData
