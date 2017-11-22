@@ -21,7 +21,7 @@ public interface UsersRepository extends MongoRepository<User, Integer>{
     public User findById(Integer id) throws PersistenceException;
     
     
-    @Query("{\"scores\": {\"$elemMatch\": {\"puntaje\": {\"$gte\": 'score'}}}}")
+    @Query("{\"scores\": {\"$elemMatch\": {\"puntaje\": {\"$gte\": score}}}}")
     public List<User> findByScore(String score);
     
 }
