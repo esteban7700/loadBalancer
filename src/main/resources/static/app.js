@@ -11,7 +11,6 @@ var app = (function () {
         loadUser: function (userid) {
             $.get("/hangmangames/" + userid,
                     function (data) {
-                        alert(JSON.stringify(data));
                         nombreJugador = data.name;
                         $("#ultimoPuntaje").html("<div id='ultimoPuntaje'>Ultimo puntaje: "+JSON.stringify(data.scores[data.scores.length-1])+"</div>")
                         $("#photoUser").html("<div id = 'photoUser'><img src=" + data.photoUrl + "></img></div>");
@@ -26,10 +25,9 @@ var app = (function () {
         loadScores: function(score){
             $.get("/hangmangames/scores/" + score, 
                     function(data){
-                        alert(JSON.stringify(data) + "SCORESSS");
                         var stringData=""
                         for(var i=0;i<data.length;i++){
-                                stringData+="<label>Score: "+data[i]+"<label>"
+                                stringData+="<label>Score: "+data[i].name+"<label>"
                                 }
                         $("#scores").html("<div id='scores'>Usuarios con puntajes mayores a 100:"+
                                 stringData
