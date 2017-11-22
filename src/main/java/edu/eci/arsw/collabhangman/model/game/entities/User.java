@@ -60,17 +60,17 @@ public class User {
     }
 
     /**
-     * @return the scorers
+     * @return the scores
      */
-    public List<Score> getScorers() {
+    public List<Score> getScores() {
         return scores;
     }
 
     /**
-     * @param scorers the scorers to set
+     * @param scores the scores to set
      */
-    public void setScorers(List<Score> scorers) {
-        this.scores = scorers;
+    public void setScores(List<Score> scores) {
+        this.scores = scores;
     }
 
     @Override
