@@ -55,16 +55,15 @@ public class GameServices {
     
     public User loadUserData(int userid) throws GameServicesException{
         try {
-            System.out.println(usersRepository.findById(userid)+ "!!!!!! USUARIO");
             return usersRepository.findById(userid);
             
         } catch (PersistenceException ex) {
-            System.out.println(ex.getMessage()+ "!!!!!! EX");
             throw new GameServicesException("Error loading User Data:"+ex.getLocalizedMessage(),ex);
         }
     }
     
     public List<User> loadScores(String score){
+        System.out.println(usersRepository.findByScore(score)+ "!!!! SCORES");
         return usersRepository.findByScore(score);
     } 
     
