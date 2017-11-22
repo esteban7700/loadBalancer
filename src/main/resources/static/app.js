@@ -12,7 +12,6 @@ var app = (function () {
             $.get("/hangmangames/" + userid,
                     function (data) {
                         alert(JSON.stringify(data));
-                        alert(JSON.stringify(data.scores));
                         nombreJugador = data.name;
                         $("#ultimoPuntaje").html("<div id='ultimoPuntaje'>Ultimo puntaje: "+data.scores[data.scores.length-1]+"</div>")
                         $("#photoUser").html("<div id = 'photoUser'><img src=" + data.photoUrl + "></img></div>");
