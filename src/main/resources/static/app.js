@@ -12,7 +12,7 @@ var app = (function () {
             $.get("/hangmangames/" + userid,
                     function (data) {
                         nombreJugador = data.name;
-                        $("#ultimoPuntaje").html("<div id='ultimoPuntaje'>Ultimo puntaje: "+JSON.stringify(data.scores[data.scores.length-1])+"</div>")
+                        $("#ultimoPuntaje").html("<div id='ultimoPuntaje'>Ultimo puntaje: "+JSON.stringify(data.scores[data.scores.length-1].puntaje)+"</div>")
                         $("#photoUser").html("<div id = 'photoUser'><img src=" + data.photoUrl + "></img></div>");
                         $("#nameUser").html("<div id= 'nameUser'> Nombre: " + data.name + "</div>");
                     }
