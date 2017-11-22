@@ -23,7 +23,7 @@ var app = (function () {
             );
         },
         loadScores: function(score){
-            $.get("/hangmangames/scores" + score, 
+            $.get("/hangmangames/scores/" + score, 
                     function(data){
                         var stringData=""
                         for(var i=0;i<data.length;i++){
